@@ -22,6 +22,7 @@ export class BookFormComponent implements OnInit {
   isEditMode: boolean = false;
   bookId: string | null = null;
   chapterVisibility: boolean[] = [];
+  private chapterIdCounter: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -31,6 +32,7 @@ export class BookFormComponent implements OnInit {
     private titleService: Title
   ) {
     this.bookForm = this.fb.group({
+      id: this.bookId || Date.now().toString(),
       title: ['', Validators.required],
       author: ['', Validators.required],
       description: [''],
@@ -51,6 +53,7 @@ export class BookFormComponent implements OnInit {
         this.bookService.getBookById(this.bookId).subscribe(book => {
           this.bookForm.patchValue(book);
           this.setChapters(book.chapters);
+          this.chapterIdCounter = Math.max(...book.chapters.map(ch => ch.id), 0);
         });
       }
     });
@@ -61,8 +64,9 @@ export class BookFormComponent implements OnInit {
   }
 
   addChapter(chapter?: Chapter): void {
+    const newChapterId = chapter?.id || ++this.chapterIdCounter;
     this.chapters.push(this.fb.group({
-      id: [chapter?.id || null],
+      id: [newChapterId],
       title: [chapter?.title || '', Validators.required],
       content: [chapter?.content || '', Validators.required]
     }));
@@ -85,11 +89,11 @@ export class BookFormComponent implements OnInit {
   onSubmit(): void {
     if (this.bookForm.valid) {
       if (this.isEditMode && this.bookId) {
-        this.bookService.updateBook(this.bookId, this.bookForm.value).subscribe(() => {
+        this.bookService.updateBook(this.bookForm.value).subscribe(() => {
           this.router.navigate(['/books']);
         });
       } else {
-        this.bookService.addBook(this.bookForm.value).subscribe(() => {
+        this.bookService.createBook(this.bookForm.value).subscribe(() => {
           this.router.navigate(['/books']);
         });
       }

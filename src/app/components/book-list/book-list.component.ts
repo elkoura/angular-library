@@ -1,75 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import {CommonModule} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {BookService} from '@services/book.service';
+import {Title} from '@angular/platform-browser';
+import {Observable} from 'rxjs';
+import {Book} from '@models/book.model';
+import {Router, RouterLink} from "@angular/router";
 
-interface Book {
-  title: string;
-  author: string;
-  coverImage: string;
-}
 
 @Component({
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink],
 })
 export class BookListComponent implements OnInit {
-  title = 'Liste des livres';
-  books: Book[] = [];
-  isSorted = false;
-  isFormActive = false;
-  selectedBookId: string | null = null;
+  title: string | null = null;
+  books: Observable<Book[]>;
+  isAscending: boolean = true;
 
-  constructor() {}
+  constructor(private bookService: BookService, private titleService: Title, private router: Router) {
+    this.books = this.bookService.getBooks();
+  }
 
   ngOnInit(): void {
-    this.books = [
-      {
-        title: 'Book 1',
-        author: 'Author 1',
-        coverImage: 'https://example.com/book1.jpg',
-      },
-      {
-        title: 'Book 2',
-        author: 'Author 2',
-        coverImage: 'https://example.com/book2.jpg',
-      },
-    ];
+    this.title = this.titleService.getTitle();
   }
 
-  sortBooks(): void {
-    if (!this.isSorted) {
-      this.books.sort((a, b) => a.title.localeCompare(b.title));
-      this.isSorted = true;
-    } else {
-      this.books.sort((a, b) => b.title.localeCompare(a.title));
-      this.isSorted = false;
-    }
+  sortBooksByTitle(): void {
+    this.isAscending = !this.isAscending;
+    this.books.subscribe((books) => {
+      this.books = new Observable((observer) => {
+        observer.next(
+          books.sort((a, b) => {
+            const comparison = a.title.localeCompare(b.title);
+            return this.isAscending ? comparison : -comparison;
+          })
+        );
+      });
+    });
   }
 
-  viewBookDetails(bookTitle: string): void {
-    console.log('Viewing details for', bookTitle);
-  }
-
-  editBook(index: number): void {
-    console.log('Editing book at index', index);
-  }
-
-  removeBook(index: number): void {
-    this.books.splice(index, 1);
-  }
-
-  activateForm(): void {
-    this.isFormActive = true;
-  }
-
-  deactivateForm(): void {
-    this.isFormActive = false;
-  }
-
-  onFormSubmitted(): void {
-    this.deactivateForm();
-    console.log('Form submitted');
+  viewBookDetails(id: string):void{
+    this.router.navigate(['/books', id, 'view']);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../services/book.service';
+import { CommonModule } from '@angular/common';
+import { BookService } from '@services/book.service';
 
 interface Book {
   title: string;
@@ -12,6 +13,7 @@ interface Book {
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
   standalone: true,
+  imports: [CommonModule],
 })
 export class BookListComponent implements OnInit {
   title = 'Liste des livres';

@@ -28,7 +28,7 @@
           "content": "Blah blah blah"
         }
       ],
-      "completed": false,
+      "status": "COMPLETED",
       "coverImage": "https://images-na.ssl-images-amazon.com/images/I/51qlgJl8w-L._SX331_BO1,204,203,200_.jpg"
     },
     {
@@ -59,29 +59,8 @@
           "content": "Blah blah blah"
         }
       ],
-      "completed": false,
+      "status": "COMPLETED",
       "coverImage": "https://images-na.ssl-images-amazon.com/images/I/51qlgJl8w-L._SX331_BO1,204,203,200_.jpg"
-    },
-    {
-      "id": "1722595263956",
-      "title": "test n°3",
-      "author": "Ayoub Benziza",
-      "description": "gfdgfdgfdgfdgfd",
-      "publishedDate": "2024-08-02",
-      "coverImage": "",
-      "chapters": [
-        {
-          "id": 1,
-          "title": "Débutant",
-          "content": "fdsfdssssssssssssss"
-        },
-        {
-          "id": 2,
-          "title": "Javascript",
-          "content": "fdsfwefgqdsgfdg'r"
-        }
-      ],
-      "completed": true
     }
   ]
 }

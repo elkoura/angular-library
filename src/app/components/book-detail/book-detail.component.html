@@ -1,1 +1,30 @@
-<p>book-detail works!</p>
+<div class="max-w-4xl mx-auto bg-white p-6 md:p-8 lg:p-10 rounded-lg shadow-md border border-gray-300 overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-lg relative">
+  <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center">Book Details</h2>
+  <ng-container *ngIf="book">
+    <div class="mb-4">
+      <h3 class="text-xl font-semibold">Title: {{ book?.title }}</h3>
+      <p class="text-gray-700">Author: {{ book?.author }}</p>
+      <p class="text-gray-700">Published Date: {{ book?.publishedDate }}</p>
+      <div class="mt-4" *ngIf="book?.coverImage">
+        <img [src]="book?.coverImage" alt="{{ book?.title }}" class="w-full h-48 object-cover rounded-lg">
+      </div>
+      <div class="mt-4">
+        <h4 class="text-lg font-medium">Description</h4>
+        <p class="text-gray-700">{{ book?.description }}</p>
+      </div>
+      <div class="mt-4" *ngIf="book?.chapters?.length > 0">
+        <h4 class="text-lg font-medium">Chapters</h4>
+        <ul class="list-disc list-inside">
+          <li *ngFor="let chapter of book?.chapters">{{ chapter.title }}</li>
+        </ul>
+      </div>
+      <div class="mt-4 flex justify-end space-x-4">
+        <button (click)="editBook()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</button>
+        <button (click)="deleteBook()" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!book">
+    <p class="text-center text-gray-700">Loading book details...</p>
+  </ng-container>
+</div>

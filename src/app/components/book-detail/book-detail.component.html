@@ -21,10 +21,12 @@
         <div class="mt-4">
           <h4 class="text-lg font-medium">Chapters</h4>
           <div class="grid grid-cols-1 gap-4">
-            <div *ngFor="let chapter of book.chapters; let i = index" class="p-4 bg-gray-100 rounded-lg shadow-md">
-              <h5 class="text-md font-semibold">Chapter {{ i + 1 }}: {{ chapter.title }}</h5>
+            @for(chapter of book.chapters; track $index){
+            <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+              <h5 class="text-md font-semibold">Chapter {{ $index + 1 }}: {{ chapter.title }}</h5>
               <p class="text-gray-700">{{ chapter.content }}</p>
             </div>
+            }
           </div>
         </div>
       }

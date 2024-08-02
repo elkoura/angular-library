@@ -34,7 +34,7 @@ export class BookFormComponent implements OnInit {
     private titleService: Title
   ) {
     this.bookForm = this.fb.group({
-      id: this.bookId || Date.now(),
+      id: this.bookId || Date.now().toString(),
       title: ['', Validators.required],
       author: ['', Validators.required],
       description: [''],

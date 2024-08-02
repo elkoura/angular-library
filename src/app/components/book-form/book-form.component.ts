@@ -21,6 +21,7 @@ export class BookFormComponent implements OnInit {
   bookForm: FormGroup;
   isEditMode: boolean = false;
   bookId: string | null = null;
+  chapterVisibility: boolean[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -65,14 +66,20 @@ export class BookFormComponent implements OnInit {
       title: [chapter?.title || '', Validators.required],
       content: [chapter?.content || '', Validators.required]
     }));
+    this.chapterVisibility.push(true);
   }
 
   removeChapter(index: number): void {
     this.chapters.removeAt(index);
+    this.chapterVisibility.splice(index, 1);
   }
 
   setChapters(chapters: Chapter[]): void {
     chapters.forEach(chapter => this.addChapter(chapter));
+  }
+
+  toggleChapterVisibility(index: number): void {
+    this.chapterVisibility[index] = !this.chapterVisibility[index];
   }
 
   onSubmit(): void {

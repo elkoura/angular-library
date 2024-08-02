@@ -4,6 +4,7 @@ import {BookService} from '@services/book.service';
 import {Title} from '@angular/platform-browser';
 import {Observable} from 'rxjs';
 import {Book} from '@models/book.model';
+import {Router, RouterLink} from "@angular/router";
 
 
 @Component({
@@ -11,14 +12,14 @@ import {Book} from '@models/book.model';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
 })
 export class BookListComponent implements OnInit {
   title: string | null = null;
   books: Observable<Book[]>;
   isAscending: boolean = true;
 
-  constructor(private bookService: BookService, private titleService: Title) {
+  constructor(private bookService: BookService, private titleService: Title, private router: Router) {
     this.books = this.bookService.getBooks();
   }
 
@@ -40,11 +41,7 @@ export class BookListComponent implements OnInit {
     });
   }
 
-  viewBookDetails(id: string):void{}
-
-  addBook():void{}
-
-  editBook(id: string):void{}
-
-  removeBook(id: string):void{}
+  viewBookDetails(id: string):void{
+    this.router.navigate(['/books', id, 'view']);
+  }
 }

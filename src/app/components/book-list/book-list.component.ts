@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CommonModule} from "@angular/common";
 
 interface Book {
   title: string;
@@ -10,6 +11,8 @@ interface Book {
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
+  standalone: true,
+  imports: [CommonModule]
 })
 export class BookListComponent implements OnInit {
   title = 'Liste des livres';

@@ -4,14 +4,15 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {BookService} from '@services/book.service';
 import {Chapter} from '@models/chapter.model';
-import {CommonModule} from "@angular/common";
+import {BookStatus} from "@models/book-status.enum";
+import {NgClass} from "@angular/common";
 
 @Component({
   selector: 'app-book-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    NgClass
   ],
   templateUrl: './book-form.component.html',
   styleUrl: './book-form.component.scss'
@@ -23,6 +24,7 @@ export class BookFormComponent implements OnInit {
   bookId: string | null = null;
   chapterVisibility: boolean[] = [];
   private chapterIdCounter: number = 0;
+  bookStatusValues = Object.values(BookStatus);
 
   constructor(
     private fb: FormBuilder,
@@ -32,14 +34,14 @@ export class BookFormComponent implements OnInit {
     private titleService: Title
   ) {
     this.bookForm = this.fb.group({
-      id: this.bookId || Date.now().toString(),
+      id: this.bookId || Date.now(),
       title: ['', Validators.required],
       author: ['', Validators.required],
       description: [''],
       publishedDate: ['', Validators.required],
       coverImage: [''],
       chapters: this.fb.array([]),
-      completed: [false]
+      status: [BookStatus.PLANNED, Validators.required]
     });
   }
 

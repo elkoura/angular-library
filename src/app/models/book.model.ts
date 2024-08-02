@@ -1,4 +1,5 @@
-import {Chapter} from "./chapter.model";
+import {Chapter} from "@models/chapter.model";
+import {BookStatus} from "@models/book-status.enum";
 
 export interface Book {
   id: string;
@@ -7,6 +8,6 @@ export interface Book {
   description: string;
   publishedDate: Date;
   chapters: Chapter[];
-  completed: boolean;
+  status: BookStatus;
   coverImage?: string;
 }

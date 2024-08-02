@@ -1,0 +1,5 @@
+export enum BookStatus {
+  COMPLETED = 'COMPLETED',
+  IN_PROGRESS = 'IN_PROGRESS',
+  PLANNED = 'PLANNED'
+}

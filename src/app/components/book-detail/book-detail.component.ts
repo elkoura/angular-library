@@ -34,7 +34,7 @@ export class BookDetailComponent implements OnInit {
 
   editBook(): void {
     if (this.bookId) {
-      this.router.navigate(['/books/edit', this.bookId]);
+      this.router.navigate(['/books', this.bookId, 'edit']);
     }
   }
 

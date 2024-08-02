@@ -1,7 +1,12 @@
+import {Chapter} from "./chapter.model";
+
 export interface Book {
-  id: number;
+  id: string;
   title: string;
   author: string;
   description: string;
-  status: string;
+  publishedDate: Date;
+  chapters: Chapter[];
+  completed: boolean;
+  coverImage?: string;
 }

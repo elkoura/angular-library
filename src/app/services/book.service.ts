@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Book } from '../models/book.model';
+import { Book } from '@models/book.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class BookService {
     return this.booksSubject.asObservable();
   }
 
-  getBookById(id: number): Observable<Book> {
+  getBookById(id: string): Observable<Book> {
     return this.http.get<Book>(`${this.apiUrl}/${id}`);
   }
 
@@ -39,7 +39,7 @@ export class BookService {
     );
   }
 
-  deleteBook(id: number): Observable<void> {
+  deleteBook(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
       tap(()=> this.loadBooks())
     );

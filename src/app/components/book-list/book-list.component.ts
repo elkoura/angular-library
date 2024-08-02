@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BookService } from '../../services/book.service';
 
 interface Book {
   title: string;
@@ -10,6 +11,7 @@ interface Book {
   selector: 'app-book-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
+  standalone: true,
 })
 export class BookListComponent implements OnInit {
   title = 'Liste des livres';
@@ -18,7 +20,7 @@ export class BookListComponent implements OnInit {
   isFormActive = false;
   selectedBookId: string | null = null;
 
-  constructor() {}
+  constructor(private bookService: BookService) {}
 
   ngOnInit(): void {
     this.books = [

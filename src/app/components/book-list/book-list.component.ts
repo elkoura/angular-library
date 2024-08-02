@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { BookService } from '@services/book.service';
-import { Title } from '@angular/platform-browser';
-import { Observable, map, tap } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {BookService} from '@services/book.service';
+import {Title} from '@angular/platform-browser';
+import {Observable} from 'rxjs';
 import {Book} from '@models/book.model';
 
 
@@ -16,18 +16,14 @@ import {Book} from '@models/book.model';
 export class BookListComponent implements OnInit {
   title: string | null = null;
   books: Observable<Book[]>;
-  isAscending = true;
-  isFormActive = false;
-  selectedBookId: string | null = null;
+  isAscending: boolean = true;
 
   constructor(private bookService: BookService, private titleService: Title) {
     this.books = this.bookService.getBooks();
-
   }
 
   ngOnInit(): void {
     this.title = this.titleService.getTitle();
-    }
   }
 
   sortBooksByTitle(): void {
@@ -43,28 +39,12 @@ export class BookListComponent implements OnInit {
       });
     });
   }
-  viewBookDetails(bookTitle: string): void {
-    console.log('Viewing details for', bookTitle);
-  }
 
-  editBook(index: number): void {
-    console.log('Editing book at index', index);
-  }
+  viewBookDetails(id: string):void{}
 
-  removeBook(index: number): void {
-    this.books.splice(index, 1);
-  }
+  addBook():void{}
 
-  activateForm(): void {
-    this.isFormActive = true;
-  }
+  editBook(id: string):void{}
 
-  deactivateForm(): void {
-    this.isFormActive = false;
-  }
-
-  onFormSubmitted(): void {
-    this.deactivateForm();
-    console.log('Form submitted');
-  }
+  removeBook(id: string):void{}
 }

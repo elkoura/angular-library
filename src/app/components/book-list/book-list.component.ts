@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BookService } from '@services/book.service';
+import { Title } from '@angular/platform-browser';
+import { Observable, map, tap } from 'rxjs';
+import {Book} from '@models/book.model';
 
-interface Book {
-  title: string;
-  author: string;
-  coverImage: string;
-}
 
 @Component({
   selector: 'app-book-list',
@@ -16,39 +14,35 @@ interface Book {
   imports: [CommonModule],
 })
 export class BookListComponent implements OnInit {
-  title = 'Liste des livres';
-  books: Book[] = [];
-  isSorted = false;
+  title: string | null = null;
+  books: Observable<Book[]>;
+  isAscending = true;
   isFormActive = false;
   selectedBookId: string | null = null;
 
-  constructor(private bookService: BookService) {}
+  constructor(private bookService: BookService, private titleService: Title) {
+    this.books = this.bookService.getBooks();
 
-  ngOnInit(): void {
-    this.books = [
-      {
-        title: 'Book 1',
-        author: 'Author 1',
-        coverImage: 'https://example.com/book1.jpg',
-      },
-      {
-        title: 'Book 2',
-        author: 'Author 2',
-        coverImage: 'https://example.com/book2.jpg',
-      },
-    ];
   }
 
-  sortBooks(): void {
-    if (!this.isSorted) {
-      this.books.sort((a, b) => a.title.localeCompare(b.title));
-      this.isSorted = true;
-    } else {
-      this.books.sort((a, b) => b.title.localeCompare(a.title));
-      this.isSorted = false;
+  ngOnInit(): void {
+    this.title = this.titleService.getTitle();
     }
   }
 
+  sortBooksByTitle(): void {
+    this.isAscending = !this.isAscending;
+    this.books.subscribe((books) => {
+      this.books = new Observable((observer) => {
+        observer.next(
+          books.sort((a, b) => {
+            const comparison = a.title.localeCompare(b.title);
+            return this.isAscending ? comparison : -comparison;
+          })
+        );
+      });
+    });
+  }
   viewBookDetails(bookTitle: string): void {
     console.log('Viewing details for', bookTitle);
   }
